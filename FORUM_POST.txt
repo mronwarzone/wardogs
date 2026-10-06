@@ -1,0 +1,46 @@
+[b][size=150]Wardogs Tactical Radar (BYOM)[/size][/b]
+
+Browser map + C++ provider. Plug your read into [b]IMemory[/b], it walks the game and feeds the map.
+
+[b]Setup[/b]
+[list]
+[*]Unzip the release
+[*]Grab [b]extract_maps.py[/b] (in the zip / attached) and run it against your Wardogs Paks + usmap. Needs Python 3.10+ and the .NET SDK. Writes tiles into [b]public/maps[/b] (maps are not in the zip on purpose).
+[/list]
+[code]
+cd wardogs-radar-byom
+python extract_maps.py --paks "E:\SteamLibrary\steamapps\common\Wardogs\Wardogs\Content\Paks" --usmap "C:\path\to\507_Wardogs_release.usmap"
+npm install
+npm run dev
+[/code]
+Open http://127.0.0.1:3000
+Or run [b]START_MAP_FAST.bat[/b]
+
+[b]Provider[/b]
+x64 VS prompt:
+[code]
+cd provider
+build.bat
+build\wardogs-provider.exe
+[/code]
+Comes with a basic RPM backend. Swap it in [b]main.cpp[/b] for yours.
+
+[b]Your backend[/b]
+[code]
+bool read(u64 address, void* dst, size_t size);
+u64 module_base(const char* module_name);
+[/code]
+Stub: [b]provider/backends/YOUR_BACKEND.cpp.example[/b]
+
+[b]Already does[/b]
+[list]
+[*]UWorld -> GameState -> PlayerArray
+[*]name / pawn / world pos / faction / squad / HP
+[*]isSelf from local controller
+[*]POST ~20Hz to /api/ingest
+[/list]
+Vehicles / FOBs / hotzone offsets are in [b]offsets.hpp[/b]. Extend [b]discovery.cpp[/b] when you want.
+
+Patch? Update [b]provider/include/offsets.hpp[/b].
+
+JSON only? See [b]INGEST.md[/b].

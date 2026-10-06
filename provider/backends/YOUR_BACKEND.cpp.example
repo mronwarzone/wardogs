@@ -1,0 +1,28 @@
+/*
+ * Drop your memory backend here.
+ *
+ * 1. Implement byom::IMemory::read (and ideally module_base).
+ * 2. In main.cpp, construct YOUR backend instead of Win32RpmMemory.
+ * 3. Keep offsets.hpp updated for the current game patch.
+ *
+ * Example skeleton:
+
+#include "../include/memory.hpp"
+
+namespace byom {
+
+class MyMemory final : public IMemory {
+public:
+  bool read(u64 address, void* dst, std::size_t size) override {
+    // YOUR READ HERE
+    return false;
+  }
+  u64 module_base(const char* module_name) override {
+    // YOUR MODULE BASE HERE
+    return 0;
+  }
+};
+
+} // namespace byom
+
+ */
